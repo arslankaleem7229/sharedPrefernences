@@ -6,4 +6,4 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
-Purpose of this repository is to learn about shared preferencecs
+### Purpose of this repository is to learn about shared preferencecs
