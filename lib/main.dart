@@ -1,15 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() async {
   runApp(MyApp());
-  var data = await readData();
-  if (data != null) {
-    String message = await readData();
-    print(message);
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -17,46 +9,48 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ReadWriteFiles(),
+      home: SharedPreferences(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class ReadWriteFiles extends StatefulWidget {
+class SharedPreferences extends StatefulWidget {
   @override
-  _ReadWriteFilesState createState() => _ReadWriteFilesState();
+  _SharedPreferencesState createState() => _SharedPreferencesState();
 }
 
-class _ReadWriteFilesState extends State<ReadWriteFiles> {
+class _SharedPreferencesState extends State<SharedPreferences> {
   TextEditingController _textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Read & write from file"),
+        title: Text("Shared Preferences"),
         centerTitle: true,
-        backgroundColor: Colors.tealAccent,
+        backgroundColor: Colors.deepOrange,
       ),
       body: Container(
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(13.4),
+        alignment: Alignment.topCenter,
         child: ListTile(
           title: TextField(
             controller: _textEditingController,
-            decoration: InputDecoration(labelText: "Input Text"),
+            decoration: InputDecoration(labelText: "Write something"),
           ),
           subtitle: TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+            ),
             child: Column(
               children: [
-                Text("Add"),
-                Text("$_localpath"),
+                Text("Save Data"),
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                ),
               ],
             ),
-            onPressed: () async {
-              final path = await _localpath;
-              print(path);
-              writeData(_textEditingController.text);
-            },
+            onPressed: () {},
           ),
         ),
       ),
@@ -64,28 +58,28 @@ class _ReadWriteFilesState extends State<ReadWriteFiles> {
   }
 }
 
-Future<String> get _localpath async {
-  final directory = await getApplicationDocumentsDirectory();
-  return directory.path;
-}
+// Future<String> get _localpath async {
+//   final directory = await getApplicationDocumentsDirectory();
+//   return directory.path;
+// }
 
-Future<File> get _localfile async {
-  final path = await _localpath;
-  return new File("$path/data.txt");
-}
+// Future<File> get _localfile async {
+//   final path = await _localpath;
+//   return new File("$path/data.txt");
+// }
 
-Future<File> writeData(String message) async {
-  final file = await _localfile;
-  return file.writeAsString("$message");
-}
+// Future<File> writeData(String message) async {
+//   final file = await _localfile;
+//   return file.writeAsString("$message");
+// }
 
-Future<String> readData() async {
-  try {
-    final file = await _localfile;
-    final String data = await file.readAsString();
-    return data;
-  } on Exception catch (e) {
-    print("$e: File not found or failed to fetch data!");
-    return null;
-  }
-}
+// Future<String> readData() async {
+//   try {
+//     final file = await _localfile;
+//     final String data = await file.readAsString();
+//     return data;
+//   } on Exception catch (e) {
+//     print("$e: File not found or failed to fetch data!");
+//     return null;
+//   }
+// }
