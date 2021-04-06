@@ -22,11 +22,15 @@ class _MyAppState extends State<MyApp> {
   _loadSavedData() async {
     SharedPreferences _preferences = await SharedPreferences.getInstance();
     setState(() {
-      if (_preferences.getString("data").isNotEmpty &&
-          _preferences.getString("data") != null) {
-        _savedData = _preferences.getString("data");
+      if (_preferences.getString("data") != null &&
+          _preferences.getString("data").isNotEmpty) {
+        setState(() {
+          _savedData = _preferences.getString("data");
+        });
       } else {
-        _savedData = "Empty";
+        setState(() {
+          _savedData = "Empty";
+        });
       }
     });
   }
@@ -69,6 +73,9 @@ class _MyAppState extends State<MyApp> {
               ),
               onPressed: () {
                 _saveMessage(_textEditingController.text);
+                setState(() {
+                  _loadSavedData();
+                });
               },
             ),
           ),
